@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp"
+        android:background="@color/clr_303030">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sort_by_tv"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:text="Sort By:"/>
+
+        <include
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/sort_by_title"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintEnd_toStartOf="@id/sort_by_hits"
+            app:layout_constraintStart_toEndOf="@id/sort_by_tv"
+            app:layout_constraintTop_toTopOf="@id/sort_by_tv"
+            layout="@layout/sort_by_item"/>
+
+        <include
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/sort_by_hits"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="6dp"
+            app:layout_constraintEnd_toStartOf="@id/sort_by_fav"
+            app:layout_constraintStart_toEndOf="@id/sort_by_title"
+            app:layout_constraintTop_toTopOf="@id/sort_by_tv"
+            layout="@layout/sort_by_item"/>
+
+        <include
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/sort_by_fav"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="6dp"
+            app:layout_constraintStart_toEndOf="@id/sort_by_hits"
+            app:layout_constraintTop_toTopOf="@id/sort_by_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="6dp"
+            layout="@layout/sort_by_item"/>
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ascending_order_tv"
+            app:layout_constraintTop_toBottomOf="@id/sort_by_tv"
+            app:layout_constraintStart_toStartOf="@id/sort_by_tv"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:text="Ascending order: "/>
+
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:id="@+id/asc_switch"
+            android:textOff="Off"
+            android:textOn="On"
+            android:checked="false"
+            android:thumb="@drawable/thumb_selector"
+            app:track="@drawable/track_selector"
+            app:thumbTint="@color/clr_d7d7d7"
+            app:layout_constraintStart_toEndOf="@id/ascending_order_tv"
+            app:layout_constraintTop_toTopOf="@id/ascending_order_tv"
+            android:layout_marginStart="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/apply_tv"
+            app:layout_constraintStart_toEndOf="@id/asc_switch"
+            app:layout_constraintTop_toTopOf="@id/ascending_order_tv"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textAllCaps="true"
+            android:text="@string/apply"
+            android:layout_marginStart="20dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

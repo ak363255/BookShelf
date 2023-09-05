@@ -1,0 +1,1 @@
+D:\BookShelf\buildSrc\build\classes\kotlin\main\Dependencies$Versions.class;D:\BookShelf\buildSrc\build\classes\kotlin\main\Dependencies.class;D:\BookShelf\buildSrc\build\classes\kotlin\main\ProjectLevelDependencies.class
