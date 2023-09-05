@@ -28,7 +28,7 @@ class SignUpFragment:Fragment(R.layout.sign_up_fragment) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        signUpViewModel.getCountries()
+        signUpViewModel.getCountries() // get country list
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -81,6 +81,9 @@ class SignUpFragment:Fragment(R.layout.sign_up_fragment) {
         }
     }
 
+    /*
+       inflate country list --> to show show drop down menu
+     */
     private fun inflateCountryData() {
         if(signUpViewModel.countryList.size > 0 ){
            val adapter = CountryAdapter(requireContext(),signUpViewModel.countryList)

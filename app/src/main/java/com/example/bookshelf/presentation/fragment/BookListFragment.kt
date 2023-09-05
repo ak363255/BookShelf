@@ -90,6 +90,7 @@ class BookListFragment :Fragment(R.layout.book_list_fragment_layout) {
         setSortByUi()
     }
     private fun setSortByUi() {
+
        binding?.sortView?.sortByTitle?.contentTitle?.text = "Title"
        binding?.sortView?.sortByHits?.contentTitle?.text = "Hits"
        binding?.sortView?.sortByFav?.contentTitle?.text = "Fav"

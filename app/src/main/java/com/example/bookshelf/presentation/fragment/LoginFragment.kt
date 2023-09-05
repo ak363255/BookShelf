@@ -56,6 +56,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
             }
         }
         loginViewModel.loginResult.observe(viewLifecycleOwner) {
+            // to check if user already logged in --> to goto book list fragment
             when (it) {
                 is ResultEvent.OnFailure -> {
                     //show Api error message
@@ -107,6 +108,7 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
             }
         }
         binding?.loginBtn?.setOnClickListener {
+            //validate login details --> do not mix buisness logic with Ui--> delegate to viewmodel
             loginViewModel.validateLoginDetails(getLoginDetails())
         }
     }
