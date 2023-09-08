@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.bookscoremodule.domain.BookModel
 import com.example.bookshelf.domain.usecase.GetBooksUseCase
 import com.example.bookshelf.domain.utils.BookDataStorePreference
+import com.example.bookshelf.domain.utils.SingleLiveEvent
 import com.example.bookshelf.presentation.fragment.BookListFragment
 import com.example.dbmodule.BookDao
 import com.example.dbmodule.BookDbHelper
@@ -46,6 +47,8 @@ class BookShelfViewModel @Inject constructor(
        }
     }
 
+    private var sortBy:BookListFragment.SORYBY = BookListFragment.SORYBY.TITLE
+    private var asc = false
     private val _isFavBook:MutableLiveData<Boolean> = MutableLiveData()
     val isFavBook:LiveData<Boolean> get() = _isFavBook
 
@@ -58,15 +61,22 @@ class BookShelfViewModel @Inject constructor(
         }
     }
 
-    private val _sortedList:MutableLiveData<List<BookModel>?> = MutableLiveData()
-     val sortedList:LiveData<List<BookModel>?> get() = _sortedList
+    private val _sortedList:MutableLiveData<SingleLiveEvent<List<BookModel>?>> = MutableLiveData()
+     val sortedList:LiveData<SingleLiveEvent<List<BookModel>?>> get() = _sortedList
+
+    fun sortBooks( bookList: MutableList<BookModel>?) = viewModelScope.launch {
+        sortBooks(sortBy,asc,bookList)
+    }
     fun sortBooks(
         sortBy: BookListFragment.SORYBY,
         asc: Boolean,
         bookList: MutableList<BookModel>?
     )  = viewModelScope.launch{
+
         var books :MutableList<BookModel>? = bookList?.toMutableList()
         var newList:MutableList<BookModel>? = mutableListOf()
+        this@BookShelfViewModel.sortBy = sortBy
+        this@BookShelfViewModel.asc = asc
         when(sortBy){
             BookListFragment.SORYBY.TITLE -> {
                 if(asc){
@@ -114,7 +124,19 @@ class BookShelfViewModel @Inject constructor(
                 }
             }
         }
-        _sortedList.postValue(books)
+        _sortedList.postValue(SingleLiveEvent(books))
+    }
+
+
+    fun getSortOrder():Pair<BookListFragment.SORYBY,Boolean>{
+        return Pair(sortBy,asc)
+    }
+
+    fun setSortBy(sortBy: BookListFragment.SORYBY){
+          this.sortBy = sortBy
+    }
+    fun setAsc(asc:Boolean){
+        this.asc = asc
     }
 
     private val _onLogout:MutableLiveData<Boolean> = MutableLiveData()

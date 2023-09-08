@@ -19,7 +19,6 @@
             android:padding="2dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:background="@drawable/circle_bg_d8d8d8"
             />
 
         <TextView

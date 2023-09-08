@@ -86,6 +86,7 @@ object Utility {
         )
     }
 
+
     fun Context.showSnackBar(view:View,message:String, color:Int){
         val snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
         snackbar.setAction("OK",

@@ -1,5 +1,6 @@
 package com.example.bookshelf.presentation.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -36,9 +37,20 @@ class BookShelfHomePageActivity : AppCompatActivity() {
     private fun observeChanges(){
         bookShelfViewModel.onLogout.observe(this){
             if(it){
+                reloadBookShelf()
                 showLogoutMessage()
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        navController?.setGraph(R.navigation.book_nav_graph)
+    }
+
+    private fun reloadBookShelf() {
+        val intent = Intent(this,BookShelfHomePageActivity::class.java)
+        startActivity(intent)
     }
 
     private fun showLogoutMessage() {

@@ -65,13 +65,15 @@ class BookListFragment :Fragment(R.layout.book_list_fragment_layout) {
                 bookListAdapter?.notifyItemChanged(currentPostion)
             }
         }
-        bookShelfViewModel.sortedList.observe(viewLifecycleOwner){
+        bookShelfViewModel.sortedList.observe(viewLifecycleOwner){data ->
+            val it = data.getContentIfNotHandled()
+
             if(it != null && it.size > 0){
                 bookListAdapter?.differ?.submitList(it)
                 CoroutineScope(Dispatchers.IO + Job()).launch {
                     delay(200)
                     withContext(Dispatchers.Main){
-                        binding?.booksRv?.scrollToPosition(0)
+                        //binding?.booksRv?.scrollToPosition(0)
                     }
                 }
             }
@@ -80,7 +82,8 @@ class BookListFragment :Fragment(R.layout.book_list_fragment_layout) {
 
     private fun onSuccessOfBooksData(data: List<BookModel>) {
         if(data.size > 0){
-                bookListAdapter?.differ?.submitList(data)
+            bookListAdapter?.differ?.submitList(data)
+            bookShelfViewModel.sortBooks(data.toMutableList())
         }
     }
 
@@ -97,6 +100,33 @@ class BookListFragment :Fragment(R.layout.book_list_fragment_layout) {
         binding?.sortView?.sortByTitle?.parent?.tag = "0"
         binding?.sortView?.sortByFav?.parent?.tag = "0"
         binding?.sortView?.sortByHits?.parent?.tag = "0"
+        val sortBy = bookShelfViewModel.getSortOrder()
+        setToDefault()
+        val drawable = ContextCompat.getDrawable(requireContext(),R.drawable.circle_bg_d8d8d8)
+        when(sortBy.first){
+            SORYBY.TITLE -> {
+                val color = R.color.clr_32B1A5
+                drawable?.setTint(ContextCompat.getColor(requireContext(),color))
+                binding?.sortView?.sortByTitle?.parent?.tag = "1"
+                drawable?.setTint(ContextCompat.getColor(requireContext(),color))
+                binding?.sortView?.sortByTitle?.tickImage?.setImageDrawable(drawable)
+            }
+            SORYBY.HITS -> {
+                val color = R.color.clr_32B1A5
+                drawable?.setTint(ContextCompat.getColor(requireContext(),color))
+                binding?.sortView?.sortByHits?.parent?.tag = "1"
+                drawable?.setTint(ContextCompat.getColor(requireContext(),color))
+                binding?.sortView?.sortByHits?.tickImage?.setImageDrawable(drawable)
+            }
+            SORYBY.FAV -> {
+                val color = R.color.clr_32B1A5
+                drawable?.setTint(ContextCompat.getColor(requireContext(),color))
+                binding?.sortView?.sortByFav?.parent?.tag = "1"
+                drawable?.setTint(ContextCompat.getColor(requireContext(),color))
+                binding?.sortView?.sortByFav?.tickImage?.setImageDrawable(drawable)
+            }
+        }
+        binding?.sortView?.ascSwitch?.isChecked = sortBy.second
 
         binding?.sortView?.sortByTitle?.parent?.setOnClickListener {
             val tag = binding?.sortView?.sortByTitle?.parent?.tag
@@ -169,6 +199,7 @@ class BookListFragment :Fragment(R.layout.book_list_fragment_layout) {
         var color = R.color.clr_d7d7d7
         val drawable = ContextCompat.getDrawable(requireContext(),R.drawable.circle_bg_d8d8d8)
         drawable?.setTint(ContextCompat.getColor(requireContext(),color))
+        binding?.sortView?.sortByFav?.tickImage?.setImageDrawable(null)
         binding?.sortView?.sortByTitle?.tickImage?.setImageDrawable(drawable)
         binding?.sortView?.sortByHits?.tickImage?.setImageDrawable(drawable)
         binding?.sortView?.sortByFav?.tickImage?.setImageDrawable(drawable)

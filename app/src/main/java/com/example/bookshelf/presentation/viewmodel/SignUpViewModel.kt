@@ -15,6 +15,7 @@ import com.example.bookshelf.domain.usecase.NameValidationUseCase
 import com.example.bookshelf.domain.usecase.PasswordValidationUseCase
 import com.example.bookshelf.domain.usecase.RegisterUseCase
 import com.example.bookshelf.domain.utils.LoginFieldValidation
+import com.example.bookshelf.domain.utils.PasswordValidationUtility
 import com.example.bookshelf.domain.utils.SignUpFieldValidation
 import com.example.network.ResultEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,10 +41,11 @@ class SignUpViewModel @Inject constructor(
                 if(passwordValidationUseCase(signUpDataModel.password)){
                     _validationRes.postValue(SignUpFieldValidation.AllOk)
                 }else{
-                    _validationRes.postValue(SignUpFieldValidation.InvalidPassword("Invalid Password"))
+                     val msg = PasswordValidationUtility.invalidPasswordReason(signUpDataModel.password)
+                    _validationRes.postValue(SignUpFieldValidation.InvalidPassword(msg))
                 }
             }else{
-                _validationRes.postValue(SignUpFieldValidation.InvalidEmail("Invalid Password"))
+                _validationRes.postValue(SignUpFieldValidation.InvalidEmail("Invalid Email"))
             }
         }else{
             _validationRes.postValue(SignUpFieldValidation.InvalidName("Invalid name"))
