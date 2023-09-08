@@ -11,6 +11,7 @@ import com.example.bookshelf.domain.usecase.LoginUseCase
 import com.example.bookshelf.domain.usecase.PasswordValidationUseCase
 import com.example.bookshelf.domain.utils.BookDataStorePreference
 import com.example.bookshelf.domain.utils.LoginFieldValidation
+import com.example.bookshelf.domain.utils.SingleLiveEvent
 import com.example.network.ResultEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -39,12 +40,12 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private val _loginResult:MutableLiveData<ResultEvent<User>> = MutableLiveData()
-    val loginResult:LiveData<ResultEvent<User>> get() = _loginResult
+    private val _loginResult:MutableLiveData<SingleLiveEvent<ResultEvent<User>>> = MutableLiveData()
+    val loginResult:LiveData<SingleLiveEvent<ResultEvent<User>>> get() = _loginResult
 
     fun loginUser(loginDataModel: LoginDataModel) = viewModelScope.launch {
         loginUseCase(loginDataModel).collectLatest {
-            _loginResult.postValue(it)
+            _loginResult.postValue(SingleLiveEvent(it))
         }
     }
 

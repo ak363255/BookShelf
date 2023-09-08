@@ -55,7 +55,8 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                 }
             }
         }
-        loginViewModel.loginResult.observe(viewLifecycleOwner) {
+        loginViewModel.loginResult.observe(viewLifecycleOwner) {data ->
+            val it = data.getContentIfNotHandled()
             // to check if user already logged in --> to goto book list fragment
             when (it) {
                 is ResultEvent.OnFailure -> {
@@ -71,6 +72,8 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
                 is ResultEvent.OnSuccess -> {
                     goToBookListFragment()
                 }
+
+                else -> {}
             }
         }
 
